@@ -14,6 +14,7 @@ export default {
     const futureCardImage = ref('');
     const selectedCardsCount = ref(0);
     const showResetButton = ref(false);
+    const clickedCards = ref([]);
 
     onMounted(async () => {
       state.value = await Cards();
@@ -25,6 +26,11 @@ export default {
     };
 
     const handleClick = (id) => {
+      if (clickedCards.value.includes(id)) {
+        // La carta ya ha sido seleccionada previamente, no se hace nada
+        return;
+      }
+
       if (selectedCardsCount.value === 0) {
         const card = state.value.find((item) => item.id === id);
         pastCardMeaning.value = card.meaning;
@@ -42,6 +48,8 @@ export default {
         selectedCardsCount.value++;
         showResetButton.value = true;
       }
+
+      clickedCards.value.push(id);
     };
 
     const reset = () => {
@@ -53,6 +61,7 @@ export default {
       futureCardImage.value = '';
       selectedCardsCount.value = 0;
       showResetButton.value = false;
+      clickedCards.value = [];
       shuffleState();
     };
 
@@ -67,24 +76,24 @@ export default {
       handleClick,
       reset,
       showResetButton,
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <template>
-      <button v-if="showResetButton" @click="reset">Reset</button>
   <div>
+    <button v-if="showResetButton" @click="reset">Reset</button>
     <div class="selectedCards">
-      <div class="pastCard">
+      <div class="pastCard selectCard">
         <img :src="pastCardImage" alt="Past Card" />
         <p>{{ pastCardMeaning }}</p>
       </div>
-      <div class="presentCard">
+      <div class="presentCard selectCard">
         <img :src="presentCardImage" alt="Present Card" />
         <p>{{ presentCardMeaning }}</p>
       </div>
-      <div class="futureCard">
+      <div class="futureCard selectCard">
         <img :src="futureCardImage" alt="Future Card" />
         <p>{{ futureCardMeaning }}</p>
       </div>
@@ -94,19 +103,30 @@ export default {
         <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
       </div>
     </div>
-
+ 
   </div>
 </template>
 
 <style scoped>
 .selectedCards {
   display: flex;
+  gap: 2rem;
   padding: 1rem;
 }
 .selectCard {
-  max-width: 5rem;
-  height: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
   margin: 1rem;
+  padding: 1rem;
+  border: 1px solid black;
+  font-size: 0.6rem;
+}
+.selectCard img {
+  width: 8rem;
 }
 .container {
   display: grid;
