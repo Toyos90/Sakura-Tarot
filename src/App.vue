@@ -5,15 +5,6 @@ import Cards from './components/Cards.vue';
 
 <template>
   <RouterLink to="/">Home</RouterLink>
-        <div class="container">
-          <Cards/>
-        </div>
-        <RouterView />
+  <Cards/>
+  <RouterView />
 </template>
-
-<style scoped>
-.container {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-}
-</style>
