@@ -1,34 +1,166 @@
 <script>
+import { ref, onMounted } from 'vue';
 import Cards from '../services/tarot-services';
 
-export default{
-    name:'CardComponent',
-    data() {
+export default {
+  setup() {
+    const state = ref([]);
+    const shuffledState = ref([]);
+    const pastCardMeaning = ref('');
+    const pastCardImage = ref('');
+    const presentCardMeaning = ref('');
+    const presentCardImage = ref('');
+    const futureCardMeaning = ref('');
+    const futureCardImage = ref('');
+    const selectedCardsCount = ref(0);
+    const showResetButton = ref(false);
+
+    onMounted(async () => {
+      state.value = await Cards();
+      shuffleState();
+    });
+
+    const shuffleState = () => {
+      shuffledState.value = [...state.value].sort(() => Math.random() - 0.5);
+    };
+
+    const handleClick = (id) => {
+      if (selectedCardsCount.value === 0) {
+        const card = state.value.find((item) => item.id === id);
+        pastCardMeaning.value = card.meaning;
+        pastCardImage.value = card.clowCard;
+        selectedCardsCount.value++;
+      } else if (selectedCardsCount.value === 1) {
+        const card = state.value.find((item) => item.id === id);
+        presentCardMeaning.value = card.meaning;
+        presentCardImage.value = card.clowCard;
+        selectedCardsCount.value++;
+      } else if (selectedCardsCount.value === 2) {
+        const card = state.value.find((item) => item.id === id);
+        futureCardMeaning.value = card.meaning;
+        futureCardImage.value = card.clowCard;
+        selectedCardsCount.value++;
+        showResetButton.value = true;
+      }
+    };
+
+    const reset = () => {
+      pastCardMeaning.value = '';
+      pastCardImage.value = '';
+      presentCardMeaning.value = '';
+      presentCardImage.value = '';
+      futureCardMeaning.value = '';
+      futureCardImage.value = '';
+      selectedCardsCount.value = 0;
+      showResetButton.value = false;
+      shuffleState();
+    };
+
     return {
-        state: []
+      shuffledState,
+      pastCardMeaning,
+      pastCardImage,
+      presentCardMeaning,
+      presentCardImage,
+      futureCardMeaning,
+      futureCardImage,
+      handleClick,
+      reset,
+      showResetButton,
     };
   },
-  async mounted() {
-    this.state = await Cards();
-  },
-
-}
+};
 </script>
 
 <template>
+  <main>
+    <h1>Adivina tu futuro</h1>
     <div>
-      <div v-for="item in state" :key="item.id">
-            <h1>{{ item.spanishName }}</h1>
-            <img :src="item.clowCard" alt="Clow Card" />
-            <img :src="item.sakuraCard" alt="Sakura Card" />
-            <p><strong>English Name:</strong> {{ item.englishName }}</p>
-            <p><strong>Kanji:</strong> {{ item.kanji }}</p>
-            <p><strong>Rōmaji:</strong> {{ item.Rōmaji }}</p>
-            <p><strong>Appeared in Anime:</strong> {{ item.appeardAnime }}</p>
-            <p><strong>Meaning:</strong> {{ item.meaning }}</p>
-            <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
-            <img :src="item.cardsReverse.sakuraReverse" alt="Sakura Card Reverse" />
+      <div class="selectedCards">
+        <div class="cards">
+          <div class="pastCard">
+            <img v-if="pastCardImage" :src="pastCardImage" alt="Past Card" />
+            <p>{{ pastCardMeaning }}</p>
+          </div>
+          <div class="presentCard">
+            <img v-if="presentCardImage" :src="presentCardImage" alt="Present Card" />
+            <p>{{ presentCardMeaning }}</p>
+          </div>
+          <div class="futureCard">
+            <img v-if="futureCardImage" :src="futureCardImage" alt="Future Card" />
+            <p>{{ futureCardMeaning }}</p>
+          </div>
         </div>
+        <button v-if="showResetButton" @click="reset">Reset</button>
+      </div>
+      <div class="container">
+        <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
+          <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
+        </div>
+      </div>
     </div>
-  </template>
-  
+  </main>
+</template>
+
+<style scoped>
+main {
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #333;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 1rem;
+  background-color: black;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #222;
+}
+
+.selectedCards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selectedCards > .cards {
+  display: flex;
+}
+
+.selectedCards > div {
+  text-align: center;
+}
+
+.selectedCards img {
+  max-width: 100%;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.pastCard,
+.presentCard,
+.futureCard {
+  flex: 1;
+}
+
+.selectedCards p {
+  font-size: 1.5rem;
+  color: white;
+}
+</style>
