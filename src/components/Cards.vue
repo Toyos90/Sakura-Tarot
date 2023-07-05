@@ -14,6 +14,7 @@ export default {
     const futureCardImage = ref('');
     const selectedCardsCount = ref(0);
     const showResetButton = ref(false);
+    const clickedCards = ref([]);
 
     onMounted(async () => {
       state.value = await Cards();
@@ -25,6 +26,11 @@ export default {
     };
 
     const handleClick = (id) => {
+      if (clickedCards.value.includes(id)) {
+        // La carta ya ha sido seleccionada previamente, no se hace nada
+        return;
+      }
+
       if (selectedCardsCount.value === 0) {
         const card = state.value.find((item) => item.id === id);
         pastCardMeaning.value = card.meaning;
@@ -42,6 +48,8 @@ export default {
         selectedCardsCount.value++;
         showResetButton.value = true;
       }
+
+      clickedCards.value.push(id);
     };
 
     const reset = () => {
@@ -53,6 +61,7 @@ export default {
       futureCardImage.value = '';
       selectedCardsCount.value = 0;
       showResetButton.value = false;
+      clickedCards.value = [];
       shuffleState();
     };
 
@@ -67,9 +76,9 @@ export default {
       handleClick,
       reset,
       showResetButton,
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <template>
