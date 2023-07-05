@@ -163,4 +163,9 @@ button:hover {
   font-size: 1.5rem;
   color: white;
 }
+.selectedCards img {
+  max-width: 100%;
+  max-height: 450px;
+}
+
 </style>
