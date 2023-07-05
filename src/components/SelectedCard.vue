@@ -1,5 +1,6 @@
 <template>
     <div class="card">
+        <h2>{{ title }}</h2>
         <img v-if="image" :src="image" :alt="alt" />
         <p>{{ meaning }}</p>
     </div>
@@ -10,6 +11,7 @@ export default {
         image: String,
         alt: String,
         meaning: String,
+        title: String,
     },
     setup(props) {
         console.log(props);
@@ -36,5 +38,8 @@ export default {
 .card p {
     font-size: 1.5rem;
     color: white
+}
+h2 {
+  color: white;
 }
 </style>

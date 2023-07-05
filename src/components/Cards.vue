@@ -1,16 +1,16 @@
 <template>
   <main>
-    <h1>Adivina tu futuro</h1>
+    <h1>Selecciona tres cartas para saber tu Pasado, Presente y Futuro...</h1>
     <div>
       <div class="selectedCards">
+        <button v-if="showResetButton" @click="reset" class="btnReset">Nueva Lectura</button>
         <div class="cards">
-          <SelectedCard v-if="isCardSelected(0)" :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" />
-          <SelectedCard v-if="isCardSelected(1)" :image="presentCardImage" :alt="'Present Card'"
-            :meaning="presentCardMeaning" />
-          <SelectedCard v-if="isCardSelected(2)" :image="futureCardImage" :alt="'Future Card'"
-            :meaning="futureCardMeaning" />
+            <SelectedCard v-if="isCardSelected(0)" :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" :title="'PASADO'"/>
+            <SelectedCard v-if="isCardSelected(1)" :image="presentCardImage" :alt="'Present Card'"
+              :meaning="presentCardMeaning" :title="'PRESENTE'"/>
+            <SelectedCard v-if="isCardSelected(2)" :image="futureCardImage" :alt="'Future Card'"
+              :meaning="futureCardMeaning" :title="'FUTURO'"/>
         </div>
-        <button v-if="showResetButton" @click="reset">Reset</button>
       </div>
       <div class="container">
         <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
@@ -52,6 +52,10 @@ export default {
     };
 
     const handleClick = (id) => {
+      if (clickedCards.value.includes(id)) {
+        return;
+      }
+
       if (selectedCardsCount.value === -1) {
         const card = state.value.find((item) => item.id === id);
         pastCardMeaning.value = card.meaning;
@@ -115,22 +119,25 @@ main {
 h1 {
   text-align: center;
   color: white;
+  padding: 3rem 0;
 }
 
-button {
-  display: block;
-  margin: 0 auto;
-  margin-top: 1rem;
-  background-color: black;
-  color: white;
+.btnReset {
+  margin: 1rem auto;
   padding: 0.5rem 1rem;
+  background-color: blueviolet;
+  color: white;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-button:hover {
+.btnReset:hover {
   background-color: #222;
+  letter-spacing: 0.1rem;
+  color: blueviolet;
+  font-weight: bold;
 }
 
 .selectedCards {
