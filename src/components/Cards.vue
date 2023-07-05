@@ -1,25 +1,3 @@
-<template>
-  <main>
-    <h1>Selecciona tres cartas para saber tu Pasado, Presente y Futuro...</h1>
-    <div>
-      <div class="selectedCards">
-        <button v-if="showResetButton" @click="reset" class="btnReset">Nueva Lectura</button>
-        <div class="cards">
-            <SelectedCard v-if="isCardSelected(0)" :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" :title="'PASADO'"/>
-            <SelectedCard v-if="isCardSelected(1)" :image="presentCardImage" :alt="'Present Card'"
-              :meaning="presentCardMeaning" :title="'PRESENTE'"/>
-            <SelectedCard v-if="isCardSelected(2)" :image="futureCardImage" :alt="'Future Card'"
-              :meaning="futureCardMeaning" :title="'FUTURO'"/>
-        </div>
-      </div>
-      <div class="container">
-        <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
-          <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
-        </div>
-      </div>
-    </div>
-  </main>
-</template>
 <script>
 import { ref, onMounted } from 'vue';
 import Cards from '../services/tarot-services';
@@ -108,6 +86,29 @@ export default {
   },
 };
 </script>
+
+<template>
+  <main>
+    <h1>Selecciona tres cartas para saber tu Pasado, Presente y Futuro...</h1>
+    <div>
+      <div class="selectedCards">
+        <button v-if="showResetButton" @click="reset" class="btnReset">Nueva Lectura</button>
+        <div class="cards">
+            <SelectedCard v-if="isCardSelected(0)" :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" :title="'PASADO'"/>
+            <SelectedCard v-if="isCardSelected(1)" :image="presentCardImage" :alt="'Present Card'"
+              :meaning="presentCardMeaning" :title="'PRESENTE'"/>
+            <SelectedCard v-if="isCardSelected(2)" :image="futureCardImage" :alt="'Future Card'"
+              :meaning="futureCardMeaning" :title="'FUTURO'"/>
+        </div>
+      </div>
+      <div class="container">
+        <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
+          <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
+        </div>
+      </div>
+    </div>
+  </main>
+</template>
 
 <style scoped>
 main {

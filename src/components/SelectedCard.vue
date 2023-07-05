@@ -1,10 +1,3 @@
-<template>
-    <div class="card">
-        <h2>{{ title }}</h2>
-        <img v-if="image" :src="image" :alt="alt" />
-        <p>{{ meaning }}</p>
-    </div>
-</template>
 <script>
 export default {
     props: {
@@ -18,6 +11,14 @@ export default {
     },
 };
 </script>
+
+<template>
+    <div class="card">
+        <h2>{{ title }}</h2>
+        <img v-if="image" :src="image" :alt="alt" />
+        <p>{{ meaning }}</p>
+    </div>
+</template>
 
 <style scoped>
 .card {
