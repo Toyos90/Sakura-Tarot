@@ -1,8 +1,34 @@
+<template>
+  <main>
+    <h1>Adivina tu futuro</h1>
+    <div>
+      <div class="selectedCards">
+        <div class="cards">
+          <SelectedCard v-if="isCardSelected(0)" :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" />
+          <SelectedCard v-if="isCardSelected(1)" :image="presentCardImage" :alt="'Present Card'"
+            :meaning="presentCardMeaning" />
+          <SelectedCard v-if="isCardSelected(2)" :image="futureCardImage" :alt="'Future Card'"
+            :meaning="futureCardMeaning" />
+        </div>
+        <button v-if="showResetButton" @click="reset">Reset</button>
+      </div>
+      <div class="container">
+        <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
+          <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
+        </div>
+      </div>
+    </div>
+  </main>
+</template>
 <script>
 import { ref, onMounted } from 'vue';
 import Cards from '../services/tarot-services';
+import SelectedCard from './SelectedCard.vue';
 
 export default {
+  components: {
+    SelectedCard,
+  },
   setup() {
     const state = ref([]);
     const shuffledState = ref([]);
@@ -12,7 +38,7 @@ export default {
     const presentCardImage = ref('');
     const futureCardMeaning = ref('');
     const futureCardImage = ref('');
-    const selectedCardsCount = ref(0);
+    const selectedCardsCount = ref(-1);
     const showResetButton = ref(false);
     const clickedCards = ref([]);
 
@@ -26,22 +52,17 @@ export default {
     };
 
     const handleClick = (id) => {
-      if (clickedCards.value.includes(id)) {
-        // La carta ya ha sido seleccionada previamente, no se hace nada
-        return;
-      }
-
-      if (selectedCardsCount.value === 0) {
+      if (selectedCardsCount.value === -1) {
         const card = state.value.find((item) => item.id === id);
         pastCardMeaning.value = card.meaning;
         pastCardImage.value = card.clowCard;
         selectedCardsCount.value++;
-      } else if (selectedCardsCount.value === 1) {
+      } else if (selectedCardsCount.value === 0) {
         const card = state.value.find((item) => item.id === id);
         presentCardMeaning.value = card.meaning;
         presentCardImage.value = card.clowCard;
         selectedCardsCount.value++;
-      } else if (selectedCardsCount.value === 2) {
+      } else if (selectedCardsCount.value === 1) {
         const card = state.value.find((item) => item.id === id);
         futureCardMeaning.value = card.meaning;
         futureCardImage.value = card.clowCard;
@@ -59,12 +80,14 @@ export default {
       presentCardImage.value = '';
       futureCardMeaning.value = '';
       futureCardImage.value = '';
-      selectedCardsCount.value = 0;
+      selectedCardsCount.value = -1;
       showResetButton.value = false;
       clickedCards.value = [];
       shuffleState();
     };
-
+    const isCardSelected = (index) => {
+      return selectedCardsCount.value >= index;
+}
     return {
       shuffledState,
       pastCardMeaning,
@@ -76,40 +99,11 @@ export default {
       handleClick,
       reset,
       showResetButton,
-    }
-  }
-}
+      isCardSelected
+    };
+  },
+};
 </script>
-
-<template>
-  <main>
-    <h1>Adivina tu futuro</h1>
-    <div>
-      <div class="selectedCards">
-        <div class="cards">
-          <div class="pastCard">
-            <img v-if="pastCardImage" :src="pastCardImage" alt="Past Card" />
-            <p>{{ pastCardMeaning }}</p>
-          </div>
-          <div class="presentCard">
-            <img v-if="presentCardImage" :src="presentCardImage" alt="Present Card" />
-            <p>{{ presentCardMeaning }}</p>
-          </div>
-          <div class="futureCard">
-            <img v-if="futureCardImage" :src="futureCardImage" alt="Future Card" />
-            <p>{{ futureCardMeaning }}</p>
-          </div>
-        </div>
-        <button v-if="showResetButton" @click="reset">Reset</button>
-      </div>
-      <div class="container">
-        <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
-          <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
-        </div>
-      </div>
-    </div>
-  </main>
-</template>
 
 <style scoped>
 main {
@@ -145,36 +139,15 @@ button:hover {
   align-items: center;
 }
 
-.selectedCards > .cards {
+.selectedCards>.cards {
   display: flex;
 }
 
-.selectedCards > div {
+.selectedCards>div {
   text-align: center;
 }
-
-.selectedCards img {
-  max-width: 100%;
-}
-
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
-
-.pastCard,
-.presentCard,
-.futureCard {
-  flex: 1;
-}
-
-.selectedCards p {
-  font-size: 1.5rem;
-  color: white;
-}
-.selectedCards img {
-  max-width: 100%;
-  max-height: 450px;
-}
-
 </style>
