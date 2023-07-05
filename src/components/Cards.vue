@@ -168,4 +168,10 @@ h1 {
 .container img{
   border-radius: 1rem;
 }
+img:hover{
+  box-shadow: 3px 5px 5px black;
+  transform: scale(1.05);
+  transform: translate(-2.1rem, -2ex);
+  transition: 0.3s;
+}
 </style>
