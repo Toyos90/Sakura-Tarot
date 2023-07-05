@@ -82,55 +82,94 @@ export default {
 </script>
 
 <template>
-  <div>
-    <button v-if="showResetButton" @click="reset">Reset</button>
-    <div class="selectedCards">
-      <div class="pastCard selectCard">
-        <img :src="pastCardImage" alt="Past Card" />
-        <p>{{ pastCardMeaning }}</p>
+  <main>
+    <h1>Adivina tu futuro</h1>
+    <div>
+      <div class="selectedCards">
+        <div class="cards">
+          <div class="pastCard">
+            <img v-if="pastCardImage" :src="pastCardImage" alt="Past Card" />
+            <p>{{ pastCardMeaning }}</p>
+          </div>
+          <div class="presentCard">
+            <img v-if="presentCardImage" :src="presentCardImage" alt="Present Card" />
+            <p>{{ presentCardMeaning }}</p>
+          </div>
+          <div class="futureCard">
+            <img v-if="futureCardImage" :src="futureCardImage" alt="Future Card" />
+            <p>{{ futureCardMeaning }}</p>
+          </div>
+        </div>
+        <button v-if="showResetButton" @click="reset">Reset</button>
       </div>
-      <div class="presentCard selectCard">
-        <img :src="presentCardImage" alt="Present Card" />
-        <p>{{ presentCardMeaning }}</p>
-      </div>
-      <div class="futureCard selectCard">
-        <img :src="futureCardImage" alt="Future Card" />
-        <p>{{ futureCardMeaning }}</p>
+      <div class="container">
+        <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
+          <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
+        </div>
       </div>
     </div>
-    <div class="container">
-      <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
-        <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
-      </div>
-    </div>
- 
-  </div>
+  </main>
 </template>
 
 <style scoped>
+main {
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #333;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 1rem;
+  background-color: black;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #222;
+}
+
 .selectedCards {
   display: flex;
-  gap: 2rem;
-  padding: 1rem;
-}
-.selectCard {
-  display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+}
 
-  margin: 1rem;
-  padding: 1rem;
-  border: 1px solid black;
-  font-size: 0.6rem;
+.selectedCards > .cards {
+  display: flex;
 }
-.selectCard img {
-  width: 8rem;
+
+.selectedCards > div {
+  text-align: center;
 }
+
+.selectedCards img {
+  max-width: 100%;
+}
+
 .container {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.pastCard,
+.presentCard,
+.futureCard {
+  flex: 1;
+}
+
+.selectedCards p {
+  font-size: 1.5rem;
+  color: white;
 }
 </style>
-  
