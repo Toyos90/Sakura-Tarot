@@ -22,13 +22,16 @@ export default {
 <style scoped>
 .card {
     flex: 1;
+    background-color: burlywood;
     background-color: transparent;
     border: none;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
+
 .card img {
+    max-width: 100%;
     max-width: 70%;
     max-height: 500px;
     border-radius: 1rem 1rem;
