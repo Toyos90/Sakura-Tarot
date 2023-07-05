@@ -5,8 +5,6 @@
     </div>
 </template>
 <script>
-import { defineProps } from 'vue';
-
 export default {
     props: {
         image: String,

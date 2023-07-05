@@ -4,9 +4,11 @@
     <div>
       <div class="selectedCards">
         <div class="cards">
-          <SelectedCard :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" />
-          <SelectedCard :image="presentCardImage" :alt="'Present Card'" :meaning="presentCardMeaning" />
-          <SelectedCard :image="futureCardImage" :alt="'Future Card'" :meaning="futureCardMeaning" />
+          <SelectedCard v-if="isCardSelected(0)" :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" />
+          <SelectedCard v-if="isCardSelected(1)" :image="presentCardImage" :alt="'Present Card'"
+            :meaning="presentCardMeaning" />
+          <SelectedCard v-if="isCardSelected(2)" :image="futureCardImage" :alt="'Future Card'"
+            :meaning="futureCardMeaning" />
         </div>
         <button v-if="showResetButton" @click="reset">Reset</button>
       </div>
@@ -18,7 +20,6 @@
     </div>
   </main>
 </template>
-
 <script>
 import { ref, onMounted } from 'vue';
 import Cards from '../services/tarot-services';
@@ -37,7 +38,7 @@ export default {
     const presentCardImage = ref('');
     const futureCardMeaning = ref('');
     const futureCardImage = ref('');
-    const selectedCardsCount = ref(0);
+    const selectedCardsCount = ref(-1);
     const showResetButton = ref(false);
 
     onMounted(async () => {
@@ -50,17 +51,17 @@ export default {
     };
 
     const handleClick = (id) => {
-      if (selectedCardsCount.value === 0) {
+      if (selectedCardsCount.value === -1) {
         const card = state.value.find((item) => item.id === id);
         pastCardMeaning.value = card.meaning;
         pastCardImage.value = card.clowCard;
         selectedCardsCount.value++;
-      } else if (selectedCardsCount.value === 1) {
+      } else if (selectedCardsCount.value === 0) {
         const card = state.value.find((item) => item.id === id);
         presentCardMeaning.value = card.meaning;
         presentCardImage.value = card.clowCard;
         selectedCardsCount.value++;
-      } else if (selectedCardsCount.value === 2) {
+      } else if (selectedCardsCount.value === 1) {
         const card = state.value.find((item) => item.id === id);
         futureCardMeaning.value = card.meaning;
         futureCardImage.value = card.clowCard;
@@ -76,11 +77,13 @@ export default {
       presentCardImage.value = '';
       futureCardMeaning.value = '';
       futureCardImage.value = '';
-      selectedCardsCount.value = 0;
+      selectedCardsCount.value = -1;
       showResetButton.value = false;
       shuffleState();
     };
-
+    const isCardSelected = (index) => {
+      return selectedCardsCount.value >= index;
+}
     return {
       shuffledState,
       pastCardMeaning,
@@ -92,6 +95,7 @@ export default {
       handleClick,
       reset,
       showResetButton,
+      isCardSelected
     };
   },
 };
@@ -138,7 +142,6 @@ button:hover {
 .selectedCards>div {
   text-align: center;
 }
-
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
