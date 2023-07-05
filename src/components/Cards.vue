@@ -150,4 +150,15 @@ button:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
+.selectedCards img {
+  max-width: 100%;
+  max-height: 100px;
+}
+.selectedCards p {
+  font-size: 1.5rem;
+  color: white;
+}
+.container img{
+  border-radius: 1rem;
+}
 </style>
