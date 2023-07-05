@@ -40,6 +40,7 @@ export default {
     const futureCardImage = ref('');
     const selectedCardsCount = ref(-1);
     const showResetButton = ref(false);
+    const clickedCards = ref([]);
 
     onMounted(async () => {
       state.value = await Cards();
@@ -68,6 +69,8 @@ export default {
         selectedCardsCount.value++;
         showResetButton.value = true;
       }
+
+      clickedCards.value.push(id);
     };
 
     const reset = () => {
@@ -79,6 +82,7 @@ export default {
       futureCardImage.value = '';
       selectedCardsCount.value = -1;
       showResetButton.value = false;
+      clickedCards.value = [];
       shuffleState();
     };
     const isCardSelected = (index) => {
