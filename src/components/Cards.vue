@@ -100,7 +100,7 @@ export default {
             <p>{{ futureCardMeaning }}</p>
           </div>
         </div>
-        <button v-if="showResetButton" @click="reset">Reset</button>
+        <button v-if="showResetButton" @click="reset" class="btnReset">Reset</button>
       </div>
       <div class="container">
         <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
@@ -123,15 +123,13 @@ h1 {
   color: white;
 }
 
-button {
-  display: block;
-  margin: 0 auto;
-  margin-top: 1rem;
-  background-color: black;
-  color: white;
+.btnReset {
+  margin: 1rem auto;
   padding: 0.5rem 1rem;
+  background-color: blueviolet;
+  color: white;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 }
 
