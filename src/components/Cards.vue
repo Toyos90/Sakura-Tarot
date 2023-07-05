@@ -1,16 +1,16 @@
 <template>
   <main>
-    <h1>Adivina tu futuro</h1>
+    <h1>Selecciona tres cartas para saber tu Pasado, Presente y Futuro...</h1>
     <div>
       <div class="selectedCards">
+        <button v-if="showResetButton" @click="reset" class="btnReset">Nueva Lectura</button>
         <div class="cards">
-          <SelectedCard v-if="isCardSelected(0)" :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" />
-          <SelectedCard v-if="isCardSelected(1)" :image="presentCardImage" :alt="'Present Card'"
-            :meaning="presentCardMeaning" />
-          <SelectedCard v-if="isCardSelected(2)" :image="futureCardImage" :alt="'Future Card'"
-            :meaning="futureCardMeaning" />
+            <SelectedCard v-if="isCardSelected(0)" :image="pastCardImage" :alt="'Past Card'" :meaning="pastCardMeaning" :title="'PASADO'"/>
+            <SelectedCard v-if="isCardSelected(1)" :image="presentCardImage" :alt="'Present Card'"
+              :meaning="presentCardMeaning" :title="'PRESENTE'"/>
+            <SelectedCard v-if="isCardSelected(2)" :image="futureCardImage" :alt="'Future Card'"
+              :meaning="futureCardMeaning" :title="'FUTURO'"/>
         </div>
-        <button v-if="showResetButton" @click="reset">Reset</button>
       </div>
       <div class="container">
         <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
@@ -55,7 +55,7 @@ export default {
       if (clickedCards.value.includes(id)) {
         return;
       }
-      
+
       if (selectedCardsCount.value === -1) {
         const card = state.value.find((item) => item.id === id);
         pastCardMeaning.value = card.meaning;
@@ -119,6 +119,7 @@ main {
 h1 {
   text-align: center;
   color: white;
+  padding: 3rem 0;
 }
 
 .btnReset {
@@ -129,10 +130,14 @@ h1 {
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-button:hover {
+.btnReset:hover {
   background-color: #222;
+  letter-spacing: 0.1rem;
+  color: blueviolet;
+  font-weight: bold;
 }
 
 .selectedCards {
@@ -151,5 +156,16 @@ button:hover {
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+.selectedCards img {
+  max-width: 100%;
+  max-height: 100px;
+}
+.selectedCards p {
+  font-size: 1.5rem;
+  color: white;
+}
+.container img{
+  border-radius: 1rem;
 }
 </style>
