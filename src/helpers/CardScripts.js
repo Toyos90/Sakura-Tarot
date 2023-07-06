@@ -1,6 +1,10 @@
 import { ref, onMounted } from "vue";
-
+import Cards from "../services/tarot-services";
+import SelectedCard from "../components/SelectedCard.vue";
 export default {
+  components: {
+    SelectedCard,
+  },
   setup() {
     const state = ref([]);
     const shuffledState = ref([]);
@@ -24,6 +28,10 @@ export default {
     };
 
     const handleClick = (id) => {
+      if (clickedCards.value.includes(id)) {
+        return;
+      }
+
       if (selectedCardsCount.value === -1) {
         const card = state.value.find((item) => item.id === id);
         pastCardMeaning.value = card.meaning;

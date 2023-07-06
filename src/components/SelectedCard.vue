@@ -1,17 +1,5 @@
-<script>
-export default {
-    props: {
-        image: String,
-        alt: String,
-        meaning: String,
-        title: String,
-    },
-    setup(props) {
-        console.log(props);
-    },
-};
+<script src="../helpers/SelectedCardScripts.js">
 </script>
-
 <template>
     <div class="card">
         <h2>{{ title }}</h2>
