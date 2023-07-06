@@ -4,19 +4,9 @@
         <p>{{ meaning }}</p>
     </div>
 </template>
-<script>
-export default {
-    props: {
-        image: String,
-        alt: String,
-        meaning: String,
-    },
-    setup(props) {
-        console.log(props);
-    },
-};
-</script>
+<script setup>
 
+</script>
 <style scoped>
 .card {
     flex: 1;
