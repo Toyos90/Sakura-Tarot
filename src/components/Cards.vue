@@ -4,7 +4,7 @@ export default CardScripts;
 </script>
 <template>
   <main>
-    <h1>Selecciona tres cartas para saber tu Pasado, Presente y Futuro...</h1>
+    <h1>Selecciona tres cartas para saber tu <br><strong>Pasado, Presente y Futuro...</strong></h1>
     <div>
       <div class="selectedCards">
         <button v-if="showResetButton" @click="reset" class="btnReset">Nueva Lectura</button>
@@ -16,7 +16,7 @@ export default CardScripts;
               :meaning="futureCardMeaning" :title="'FUTURO'"/>
         </div>
       </div>
-      <div class="container">
+      <div class="containerCards">
         <div v-for="item in shuffledState" :key="item.id" @click="handleClick(item.id)">
           <img :src="item.cardsReverse.clowReverse" alt="Clow Card Reverse" />
         </div>
@@ -27,19 +27,17 @@ export default CardScripts;
 
 <style scoped>
 main {
-  font-family: 'Helvetica Neue', sans-serif;
-  background-color: #333;
-  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  margin: 0 4rem;
 }
-
 h1 {
   text-align: center;
   color: white;
-  padding: 3rem 0;
+  padding: 4rem 0;
+  font-weight: 300;
 }
 
 .btnReset {
-  margin: 1rem auto;
+  margin-bottom: 4rem;
   padding: 0.5rem 1rem;
   background-color: blueviolet;
   color: white;
@@ -48,46 +46,53 @@ h1 {
   cursor: pointer;
   transition: 0.3s;
 }
-
 .btnReset:hover {
   background-color: #222;
   letter-spacing: 0.1rem;
   color: blueviolet;
   font-weight: bold;
 }
-
 .selectedCards {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .selectedCards>.cards {
   display: flex;
 }
-
 .selectedCards>div {
   text-align: center;
 }
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-}
 .selectedCards img {
   max-width: 100%;
-  max-height: 100px;
+  max-height: 80px;
 }
-.selectedCards p {
-  font-size: 1.5rem;
-  color: white;
+.containerCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  padding-right: 6rem;
 }
-.container img{
+.containerCards img{
   border-radius: 1rem;
+  transition: 0.3s;
 }
 img:hover{
   box-shadow: 3px 5px 5px black;
   transform: scale(1.05);
-  transform: translate(-2.1rem, -2ex);
-  transition: 0.3s;
+  transform: translate(-1.5rem, -1ex);
+}
+@media (max-width: 700px) {
+  .cards{
+    display: flex;
+    flex-direction: column;
+  }
+  .containerCards {
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    padding-right: 9rem;
+  }
+  .containerCards img{
+    border-radius: 0.6rem;
+    transition: 0.3s;
+  }
 }
 </style>
