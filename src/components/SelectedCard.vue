@@ -1,4 +1,6 @@
-<script src="../helpers/SelectedCardScripts.js">
+<script>
+import SelectedCardScripts from '../helpers/SelectedCardScripts';
+export default SelectedCardScripts;
 </script>
 <template>
     <div class="card">
