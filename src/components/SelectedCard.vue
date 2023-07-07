@@ -2,9 +2,9 @@
 </script>
 <template>
     <div class="card">
-        <h2>{{ title }}</h2>
+        <h2 class="card__title">{{ title }}</h2>
         <img v-if="image" :src="image" :alt="alt" />
-        <p>{{ meaning }}</p>
+        <p class="card__text">{{ meaning }}</p>
     </div>
 </template>
 
@@ -18,20 +18,38 @@
     align-items: center;
     flex-direction: column;
 }
-
+.card__title {
+    background-image: linear-gradient(45deg, #d678f3, #9642af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+}
 .card img {
-    max-width: 100%;
     max-width: 70%;
     max-height: 500px;
     border-radius: 1rem 1rem;
-    
+}
+.card__text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 100;
+    letter-spacing: 0.02rem;
+    padding: 1rem 0;
+}
+@media (max-width: 700px) {
+    .card {
+        margin: 0 0.5rem;
+    }
+    .card__title {
+        font-size: 1.5rem;
+    }
+    .card img {
+        max-width: 50%;
+        max-height: 500px;
+        border-radius: 0.5rem 0.5rem;
+    }
+    .card__text{
+        font-size: 0.8rem;
+    }
 }
 
-.card p {
-    font-size: 1.5rem;
-    color: white
-}
-h2 {
-  color: white;
-}
 </style>
