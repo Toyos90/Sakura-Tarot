@@ -1,4 +1,7 @@
-<script src="../helpers/CardScripts"></script>
+<script>
+import CardScripts from '../helpers/CardScripts';
+export default CardScripts;
+</script>
 <template>
   <main>
     <h1>Selecciona tres cartas para saber tu <br><strong>Pasado, Presente y Futuro...</strong></h1>
