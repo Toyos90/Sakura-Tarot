@@ -24,6 +24,7 @@ export default SelectedCardScripts;
     background-image: linear-gradient(45deg, #d678f3, #9642af);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; 
+     background-clip: text;
 }
 .card img {
     max-width: 70%;
